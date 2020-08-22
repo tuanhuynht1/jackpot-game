@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "jackpot-game"
+    }
+  },
+  "defaultProject": "jackpot-game",
+  "cli": {
+    "analytics": "5027e060-0878-4145-ae17-73335bb8758d"
+  }
 }
