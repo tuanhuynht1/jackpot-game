@@ -1,30 +1,44 @@
-#container {
+.root {
+  height: 100vh;
+  background: linear-gradient(75deg, rgb(214, 180, 247), rgb(173, 203, 231));
+
+  .main {
+    display:flex; 
+    flex-direction: column; 
+    height:100%; 
+    align-items: center;
+  }
+
+}
+.container {
     max-width: 400px;
     width: 100%;
     margin: 5vh auto 0;
     position: relative;
   }
   
-  #main {
+  #grid {
     height: 100%;
     width: 100%;
   
     .row {
       width: 100%;
-      height: 10%;
-      font: 0/0 a;
+      height: 11.11%;
   
       .circle {
         display: inline-block;
         vertical-align: middle;
         margin: 1%;
-        width: 8%;
-        padding-bottom: 8%;
+        width: 9.11%;
+        padding-bottom: 9.11%;
         background-color: #333;
         border-radius: 50%;
 
+        transition: transform 0.3s ease-out;
+
         &.gold {
-          background-color: gold;
+          background-color: lighten(red, 12%);
+          transform: scale(1.3);
         }
       }
     }
@@ -34,14 +48,29 @@
     display: flex;
     margin: 0 auto;
     height: 100%;
-    
+    flex-grow: 1; 
+    display:flex; 
+    flex-direction: column; 
+    justify-content: center;
 
     .trigger {
-        
+        display: flex;
         width: 150px;
         height: 150px;
         border-radius: 50%;
         background-color: #333;
+        flex-direction: column; 
+        justify-content: center;
+        cursor: pointer;
 
+        &:hover {
+          background-color: lighten(#333, 10%);
+        }
+
+        h2{
+          text-align: center;
+          color: white;
+          font-size: 72px;
+        }
     }
 }
