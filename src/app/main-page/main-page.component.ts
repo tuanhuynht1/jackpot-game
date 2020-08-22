@@ -7,32 +7,31 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainPageComponent implements OnInit {
 
-  grid: Grid = new Grid();
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
-}
-
-export class Grid {  
-
-  private grid: Circle[][] = [];
+  grid: Circle[][] = [];
+  currentIndex: Index = new Index(0,0);
 
   constructor(){
     for(let i = 0; i < 10; i++) {
 
-      this.grid.push([]);
+      this.grid.push([]); 
 
       for (let j = 0; j < 10; j++) {
         this.grid[i].push(new Circle());
       }
     }
   }
-} 
 
+  ngOnInit(): void {
+    setInterval(() => {
+      this.currentIndex.j = (this.currentIndex.j + 1) % 10;
+    },100);
+  }
 
+}
+
+export class Index {
+  constructor(public i: number, public j: number){}
+}
 
 export class Circle {  
   constructor(){}
