@@ -18,7 +18,7 @@ export class MainPageComponent implements OnInit {
 
 export class Grid {  
 
-  private grid: Circle[][];
+  private grid: Circle[][] = [];
 
   constructor(){
     for(let i = 0; i < 10; i++) {
