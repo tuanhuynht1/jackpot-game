@@ -6,9 +6,7 @@
                   <div 
                     class="circle" 
                     *ngFor="let col of grid[i]; index as j"
-                    [ngClass]="{
-                      'red': redIndex.i == i && redIndex.j == j || greenIndex.i == i && greenIndex.j == j
-                    }">
+                    [ngClass]="grid[i][j].style">
                   </div>
                 </div>
             </div>

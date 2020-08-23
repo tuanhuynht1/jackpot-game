@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Direction, Color } from '../shared/enums'
+import { Direction } from '../shared/enums';
+
+const RED = 0;
+const GREEN = 1;
+const BLUE = 2;
+const GOLD = 3;
 
 @Component({
   selector: 'app-main-page',
@@ -8,15 +13,9 @@ import { Direction, Color } from '../shared/enums'
 })
 export class MainPageComponent implements OnInit {
 
-  grid: Circle[][] = [];
-
-  ringStates: RingState[]= [];
-
-  redIndex: Index = new Index(0,0);
-  redDirection: Direction = Direction.Right;
-
-  greenIndex: Index = new Index(1,1);
-  greenDirection: Direction = Direction.Right;
+  grid: Circle[][] = []; // 9x9 circles
+  ringStates: RingState[]= []; // use consts to index each ring color
+  styles: string[] = ['red','green','blue','gold'];
 
   constructor(){
 
@@ -38,47 +37,66 @@ export class MainPageComponent implements OnInit {
     }
 
     // initialize styles
-    this.grid[0][0].style = 'red';
-    this.grid[1][1].style = 'green';
-    this.grid[2][2].style = 'blue';
-    this.grid[3][3].style = 'gold';
-
+    this.grid[0][0].style = this.styles[RED];
+    this.grid[1][1].style = this.styles[GREEN];
+    this.grid[2][2].style = this.styles[BLUE];
+    this.grid[3][3].style = this.styles[GOLD];
   }
 
   ngOnInit(): void {
 
-    // setInterval(() => {
-    //   switch(this.redDirection){
+    // initialize ring rotations
+    setInterval(() => this.incrementRing(RED),50);
+    setInterval(() => this.incrementRing(GREEN),50);
+    setInterval(() => this.incrementRing(BLUE),50);
+    setInterval(() => this.incrementRing(GOLD),50);
+  }
 
-    //     case Direction.Right:
-    //       this.redIndex.j++;
-    //       if (this.redIndex.j === 8) {
-    //         this.redDirection = Direction.Down;
-    //       }
-    //       break;
+  incrementRing(color: number) : void{
 
-    //     case Direction.Down:
-    //       this.redIndex.i++;
-    //       if (this.redIndex.i === 8) {
-    //         this.redDirection = Direction.Left;
-    //       }
-    //       break;
+    // use color const value as offset amount 
+    let offset = color; 
 
-    //     case Direction.Left:
-    //       this.redIndex.j--;
-    //       if (this.redIndex.j === 0) {
-    //         this.redDirection = Direction.Up;
-    //       }
-    //       break;
-        
-    //     case Direction.Up:
-    //       this.redIndex.i--;
-    //       if (this.redIndex.i === 0) {
-    //         this.redDirection = Direction.Right;
-    //       }
-    //       break;
-    //   }
-    // },50);
+    // remove style on current index
+    let currentIndex = this.ringStates[color].currentIndex;
+    this.grid[currentIndex.i][currentIndex.j].style = '';  
+
+    // increment based on current direction
+    switch(this.ringStates[color].direction){
+
+      case Direction.Right:
+        this.ringStates[color].currentIndex.j++;
+        if (this.ringStates[color].currentIndex.j === 8 - offset) {
+          this.ringStates[color].direction = Direction.Down;
+        }
+        break;
+
+      case Direction.Down:
+        this.ringStates[color].currentIndex.i++;
+        if (this.ringStates[color].currentIndex.i === 8 - offset) {
+          this.ringStates[color].direction = Direction.Left;
+        }
+        break;
+
+      case Direction.Left:
+        this.ringStates[color].currentIndex.j--;
+        if (this.ringStates[color].currentIndex.j === 0 + offset) {
+          this.ringStates[color].direction = Direction.Up;
+        }
+        break;
+      
+      case Direction.Up:
+        this.ringStates[color].currentIndex.i--;
+        if (this.ringStates[color].currentIndex.i === 0 + offset) {
+          this.ringStates[color].direction = Direction.Right;
+        }
+        break;
+    }
+
+    // update style on new index
+    let style = this.styles[color];
+    currentIndex = this.ringStates[color].currentIndex;
+    this.grid[currentIndex.i][currentIndex.j].style = style;
   }
 
 }
