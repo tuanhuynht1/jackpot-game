@@ -20,6 +20,7 @@ export class MainPageComponent implements OnInit {
   bulletIndex: Index = new Index(-1, Math.floor(SIZE/2));
   bulletIntervalId: number;
   buttonDisabled = false;
+  shotsRemaining: number = 8;
 
   constructor(){
 
@@ -111,6 +112,7 @@ export class MainPageComponent implements OnInit {
   onClick() : void {
 
     if (!this.buttonDisabled) {
+      this.shotsRemaining--;
       this.buttonDisabled = true;
       this.bulletIndex.i = SIZE;
       this.bulletIntervalId = setInterval(() => this.bulletIncrement(), 60);
