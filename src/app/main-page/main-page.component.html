@@ -1,23 +1,31 @@
 <div class="root">
-    <div class="main">
-        <div class="container">
-            <div id="grid">
-                <div class="row" *ngFor="let row of grid; index as i">
-                  <div 
-                    class="circle" 
-                    *ngFor="let col of grid[i]; index as j"
-                    [ngClass]="grid[i][j].style"
-                    [class.bullet]="bulletIndex.i === i && j === 5">
-                  </div>
-                </div>
-            </div>
-        </div>
+  <div class="top-bar">
+    <h1>Jackpot Mania</h1>
+  </div>
 
-        <div id="controller">
-            <div class="trigger" (click)="onClick()" [ngClass]="{'disabled': buttonDisabled || shotsRemaining <= 0}">
-              <h2>{{shotsRemaining}}</h2>
-            </div>
-        </div>
+  <div class="main">
+      <div class="container">
+          <div id="grid">
+              <div class="row" *ngFor="let row of grid; index as i">
+                <div 
+                  class="circle" 
+                  *ngFor="let col of grid[i]; index as j"
+                  [ngClass]="grid[i][j].style"
+                  [class.bullet]="bulletIndex.i === i && j === 5">
+                </div>
+              </div>
+              <div class="row">
+                <div class="circle shooter"></div>
+              </div>
+          </div>
+
+      </div>
+
+      <div id="controller">
+          <div class="trigger" (click)="onClick()" [ngClass]="{'disabled': buttonDisabled || shotsRemaining <= 0}">
+            <h2>{{shotsRemaining}}</h2>
+          </div>
+      </div>
     </div>
 </div>
 
