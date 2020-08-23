@@ -51,6 +51,11 @@
         &.gold {
           background-color: lighten(gold, 12%);
         }
+
+        &.bullet {
+          background-color: lighten(whitesmoke, 12%);
+        }
+
       }
     }
 }
@@ -74,14 +79,27 @@
         justify-content: center;
         cursor: pointer;
 
-        &:hover {
-          background-color: lighten(#333, 10%);
-        }
+        ::selection { background: transparent; }
 
         h2{
           text-align: center;
           color: white;
           font-size: 72px;
         }
+
+        &:hover {
+          background-color: lighten(#333, 10%);
+        }
+
+        &.disabled {
+          opacity: .3;
+          cursor: not-allowed;
+
+          &:hover {
+            background-color: #333;
+          }
+        }
+
+        
     }
 }

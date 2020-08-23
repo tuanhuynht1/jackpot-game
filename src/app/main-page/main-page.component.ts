@@ -15,8 +15,11 @@ const SIZE = 11;
 export class MainPageComponent implements OnInit {
 
   grid: Circle[][] = []; // 9x9 circles
-  ringStates: RingState[]= []; // use consts to index each ring color
+  colorStates: ColorState[]= []; // use consts to index each color state
   styles: string[] = ['red','green','blue','gold'];
+  bulletIndex: Index = new Index(-1, Math.floor(SIZE/2));
+  bulletIntervalId: number;
+  buttonDisabled = false;
 
   constructor(){
 
@@ -30,11 +33,11 @@ export class MainPageComponent implements OnInit {
       }
     }
 
-    // initialize ring states
+    // initialize color states
     for(let i = 0; i < 4; i++) {
 
-      this.ringStates.push(new RingState());
-      this.ringStates[i].currentIndex = new Index(i,i);
+      this.colorStates.push(new ColorState());
+      this.colorStates[i].currentIndex = new Index(i,i);
     }
 
     // initialize styles
@@ -42,15 +45,16 @@ export class MainPageComponent implements OnInit {
     this.grid[1][1].style = this.styles[GREEN];
     this.grid[2][2].style = this.styles[BLUE];
     this.grid[3][3].style = this.styles[GOLD];
+    
   }
 
   ngOnInit(): void {
 
-    // initialize ring rotations
-    setInterval(() => this.incrementRing(RED),50);
-    setInterval(() => this.incrementRing(GREEN),50);
-    setInterval(() => this.incrementRing(BLUE),50);
-    setInterval(() => this.incrementRing(GOLD),50);
+    // initialize color rotations
+    this.colorStates[RED].intervalId = setInterval(() => this.incrementRing(RED),60);
+    this.colorStates[GREEN].intervalId = setInterval(() => this.incrementRing(GREEN),60);
+    this.colorStates[BLUE].intervalId = setInterval(() => this.incrementRing(BLUE),60);
+    this.colorStates[GOLD].intervalId = setInterval(() => this.incrementRing(GOLD),60);
   }
 
   incrementRing(color: number) : void{
@@ -59,56 +63,86 @@ export class MainPageComponent implements OnInit {
     let offset = color; 
 
     // remove style on current index
-    let currentIndex = this.ringStates[color].currentIndex;
+    let currentIndex = this.colorStates[color].currentIndex;
     this.grid[currentIndex.i][currentIndex.j].style = '';  
 
     // increment based on current direction
-    switch(this.ringStates[color].direction){
+    switch(this.colorStates[color].direction){
 
       case Direction.Right:
-        this.ringStates[color].currentIndex.j++;
-        if (this.ringStates[color].currentIndex.j === SIZE - 1 - offset) {
-          this.ringStates[color].direction = Direction.Down;
+        this.colorStates[color].currentIndex.j++;
+        if (this.colorStates[color].currentIndex.j === SIZE - 1 - offset) {
+          this.colorStates[color].direction = Direction.Down;
         }
         break;
 
       case Direction.Down:
-        this.ringStates[color].currentIndex.i++;
-        if (this.ringStates[color].currentIndex.i === SIZE - 1 - offset) {
-          this.ringStates[color].direction = Direction.Left;
+        this.colorStates[color].currentIndex.i++;
+        if (this.colorStates[color].currentIndex.i === SIZE - 1 - offset) {
+          this.colorStates[color].direction = Direction.Left;
         }
         break;
 
       case Direction.Left:
-        this.ringStates[color].currentIndex.j--;
-        if (this.ringStates[color].currentIndex.j === 0 + offset) {
-          this.ringStates[color].direction = Direction.Up;
+        this.colorStates[color].currentIndex.j--;
+        if (this.colorStates[color].currentIndex.j === 0 + offset) {
+          this.colorStates[color].direction = Direction.Up;
         }
         break;
       
       case Direction.Up:
-        this.ringStates[color].currentIndex.i--;
-        if (this.ringStates[color].currentIndex.i === 0 + offset) {
-          this.ringStates[color].direction = Direction.Right;
+        this.colorStates[color].currentIndex.i--;
+        if (this.colorStates[color].currentIndex.i === 0 + offset) {
+          this.colorStates[color].direction = Direction.Right;
         }
         break;
     }
 
     // update style on new index
     let style = this.styles[color];
-    currentIndex = this.ringStates[color].currentIndex;
+    currentIndex = this.colorStates[color].currentIndex;
     this.grid[currentIndex.i][currentIndex.j].style = style;
+
+    if(currentIndex.i == this.bulletIndex.i && currentIndex.j == this.bulletIndex.j) {
+      clearInterval(this.colorStates[color].intervalId);
+    }
+  }
+
+  onClick() : void {
+
+    if (!this.buttonDisabled) {
+      this.buttonDisabled = true;
+      this.bulletIndex.i = SIZE;
+      this.bulletIntervalId = setInterval(() => this.bulletIncrement(), 60);
+    }
+  }
+
+  bulletIncrement() : void {
+
+    if (this.bulletIndex.i === 0) {
+      this.buttonDisabled = false;
+      clearInterval(this.bulletIntervalId);
+    }
+    this.bulletIndex.i--;
+
+    for(let i = 0; i < this.colorStates.length; i++) {
+      let currentIndex = this.colorStates[i].currentIndex;
+      if(currentIndex.i == this.bulletIndex.i && currentIndex.j == this.bulletIndex.j) {
+        clearInterval(this.colorStates[i].intervalId);
+      }
+    }
+
   }
 
 }
 
 
 
-export class RingState {
+export class ColorState {
   currentIndex: Index;
   direction: Direction = Direction.Right;
-  intervalRate: Number = 50;
-  intervalId: Number;
+  intervalRate: number = 50;
+  intervalId: number;
 }
 
 export class Index {

@@ -6,14 +6,15 @@
                   <div 
                     class="circle" 
                     *ngFor="let col of grid[i]; index as j"
-                    [ngClass]="grid[i][j].style">
+                    [ngClass]="grid[i][j].style"
+                    [class.bullet]="bulletIndex.i === i && j === 5">
                   </div>
                 </div>
             </div>
         </div>
 
         <div id="controller">
-            <div class="trigger">
+            <div class="trigger" (click)="onClick()" [ngClass]="{'disabled': buttonDisabled}">
               <h2>0</h2>
             </div>
         </div>
