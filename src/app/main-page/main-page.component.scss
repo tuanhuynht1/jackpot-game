@@ -52,10 +52,14 @@
           background-color: lighten(gold, 12%);
         }
 
-        &.bullet {
-          background-color: lighten(whitesmoke, 12%);
+        &.hit {
+          transform: scale(.5);
         }
 
+        &.bullet {
+          background-color: lighten(whitesmoke, 12%);
+          transform: scale(1);
+        }
       }
     }
 }

@@ -14,7 +14,7 @@
         </div>
 
         <div id="controller">
-            <div class="trigger" (click)="onClick()" [ngClass]="{'disabled': buttonDisabled || shotsRemaining === 0}">
+            <div class="trigger" (click)="onClick()" [ngClass]="{'disabled': buttonDisabled || shotsRemaining <= 0}">
               <h2>{{shotsRemaining}}</h2>
             </div>
         </div>

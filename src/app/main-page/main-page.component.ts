@@ -106,12 +106,13 @@ export class MainPageComponent implements OnInit {
 
     if(currentIndex.i == this.bulletIndex.i && currentIndex.j == this.bulletIndex.j) {
       clearInterval(this.colorStates[color].intervalId);
+      this.grid[currentIndex.i][currentIndex.j].style += ' hit';
     }
   }
 
   onClick() : void {
 
-    if (!this.buttonDisabled) {
+    if (!this.buttonDisabled && this.shotsRemaining > 0) {
       this.shotsRemaining--;
       this.buttonDisabled = true;
       this.bulletIndex.i = SIZE;
@@ -131,6 +132,7 @@ export class MainPageComponent implements OnInit {
       let currentIndex = this.colorStates[i].currentIndex;
       if(currentIndex.i == this.bulletIndex.i && currentIndex.j == this.bulletIndex.j) {
         clearInterval(this.colorStates[i].intervalId);
+        this.grid[currentIndex.i][currentIndex.j].style += ' hit';
       }
     }
 
