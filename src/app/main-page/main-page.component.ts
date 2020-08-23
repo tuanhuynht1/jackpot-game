@@ -5,6 +5,7 @@ const RED = 0;
 const GREEN = 1;
 const BLUE = 2;
 const GOLD = 3;
+const SIZE = 11;
 
 @Component({
   selector: 'app-main-page',
@@ -20,11 +21,11 @@ export class MainPageComponent implements OnInit {
   constructor(){
 
     // initialize grid
-    for(let i = 0; i < 9; i++) {
+    for(let i = 0; i < SIZE; i++) {
 
       this.grid.push([]); 
 
-      for (let j = 0; j < 9; j++) {
+      for (let j = 0; j < SIZE; j++) {
         this.grid[i].push(new Circle());
       }
     }
@@ -66,14 +67,14 @@ export class MainPageComponent implements OnInit {
 
       case Direction.Right:
         this.ringStates[color].currentIndex.j++;
-        if (this.ringStates[color].currentIndex.j === 8 - offset) {
+        if (this.ringStates[color].currentIndex.j === SIZE - 1 - offset) {
           this.ringStates[color].direction = Direction.Down;
         }
         break;
 
       case Direction.Down:
         this.ringStates[color].currentIndex.i++;
-        if (this.ringStates[color].currentIndex.i === 8 - offset) {
+        if (this.ringStates[color].currentIndex.i === SIZE - 1 - offset) {
           this.ringStates[color].direction = Direction.Left;
         }
         break;

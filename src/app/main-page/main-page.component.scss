@@ -23,37 +23,33 @@
   
     .row {
       width: 100%;
-      height: 11.11%;
+      height: 9.09%;
   
       .circle {
         display: inline-block;
         vertical-align: middle;
-        margin: 1%;
-        width: 9.11%;
-        padding-bottom: 9.11%;
+        margin: .5%;
+        width: 8.09%;
+        padding-bottom: 8.09%;
         background-color: #333;
         border-radius: 50%;
 
-        transition: transform 50ms ease-out 20ms;
+        transition: background-color 20ms ease-in;
 
         &.red {
           background-color: lighten(red, 12%);
-          transform: scale(1.2);
         }
 
         &.green {
           background-color: lighten(green, 12%);
-          transform: scale(1.2);
         }
 
         &.blue {
           background-color: lighten(blue, 12%);
-          transform: scale(1.2);
         }
 
         &.gold {
           background-color: lighten(gold, 12%);
-          transform: scale(1.2);
         }
       }
     }
